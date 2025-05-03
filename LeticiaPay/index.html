@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Exclusiva - Modelo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popup.css"> <!-- CSS para o popup -->
+</head>
+<body>
+    <div class="container">
+        <header class="profile-header">
+            <img src="perfil.jpg" alt="Foto do Perfil" class="profile-avatar">
+            <h1>Letícia Pimentel</h1>
+            <p>Conteúdo exclusivo para assinantes.</p>
+            <button id="open-popup-btn" class="cta-button">Quero Acesso Exclusivo!</button> <!-- Botão para abrir o popup -->
+        </header>
+
+        <section class="content-feed">
+            <h2>Últimas Postagens (Prévia)</h2>
+            <!-- Placeholder for content items -->
+            <div class="content-item">Postagem Bloqueada, Desbloquei Adquirindo o acesso.</div>
+        </section>
+    </div>
+
+    <!-- Estrutura do Popup de Pagamento (inicialmente oculto) -->
+    <div id="payment-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-content">
+            <button id="close-popup-btn" class="close-button">&times;</button>
+            <h2>Escolha seu Acesso</h2>
+            <p>Selecione o valor desejado para liberar o conteúdo:</p>
+
+            <div class="value-options">
+                <!-- Opções de valor - Adicionar data-value em centavos -->
+                <button class="value-button" data-value="2999">R$ 29,99 - Acesso Mensal</button>
+                <button class="value-button" data-value="4999">R$ 49,99 - Acesso Trimestral</button>
+                <button class="value-button" data-value="6999">R$ 69,99 - Acesso Vitalício</button>
+            </div>
+
+            <div id="qrcode-section" style="display: none; text-align: center; margin-top: 20px;">
+                <h3>Pague com PIX</h3>
+                <div id="qrcode-container">
+                    <p>Carregando QR Code...</p>
+                </div>
+                <p id="payment-status">Status: Aguardando seleção de valor.</p>
+                <p><small>Após o pagamento, o download iniciará automaticamente.</small></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

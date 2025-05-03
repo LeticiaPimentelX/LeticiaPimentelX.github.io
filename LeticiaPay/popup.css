@@ -1,0 +1,206 @@
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Popup Content */
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-content {
+    transform: scale(1);
+}
+
+.popup-content h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.popup-content p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2.5em;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+/* Value Options */
+.value-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.value-button {
+    padding: 15px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+/* Inspired by LeticiaPimentelX buttons */
+.value-button:nth-child(1) {
+    background-color: #ff8c69; /* Light Salmon */
+}
+.value-button:nth-child(2) {
+    background-color: #ff7f50; /* Coral */
+}
+.value-button:nth-child(3) {
+    background-color: #ff6347; /* Tomato */
+}
+.value-button:nth-child(4) {
+    background-color: #ff4500; /* OrangeRed */
+}
+
+.value-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.value-button.selected {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 6px #4CAF50; /* Highlight selected */
+    transform: scale(1.02);
+}
+
+/* QR Code Section */
+#qrcode-section h3 {
+    color: #444;
+    margin-bottom: 10px;
+}
+
+#qrcode-container {
+    margin: 15px auto;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    display: inline-block;
+    min-height: 150px; /* Placeholder height */
+    min-width: 150px;  /* Placeholder width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qrcode-container img {
+    display: block;
+    max-width: 200px;
+    height: auto;
+}
+
+#payment-status {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #888;
+}
+
+#payment-status.paid {
+    color: green;
+}
+
+#payment-status.error {
+    color: red;
+}
+
+/* Main CTA Button */
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #ff6347; /* Tomato */
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    animation: pulse 1.8s infinite;
+}
+
+.cta-button:hover {
+    background-color: #ff4500; /* OrangeRed */
+    transform: translateY(-2px);
+}
+
+/* Pulse animation from pasted_content.txt */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 99, 71, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px 15px rgba(255, 99, 71, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 99, 71, 0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .popup-content {
+        padding: 20px;
+    }
+    .popup-content h2 {
+        font-size: 1.5em;
+    }
+    .value-button {
+        font-size: 1em;
+        padding: 12px 15px;
+    }
+    .cta-button {
+        font-size: 1.1em;
+        padding: 10px 20px;
+    }
+}
+

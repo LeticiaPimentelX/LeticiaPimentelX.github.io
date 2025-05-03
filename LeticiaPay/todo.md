@@ -1,0 +1,26 @@
+# Lista de Tarefas: Popup de Pagamento Estilo LeticiaPimentelX
+
+- [X] 001: Analisar site de referência `LeticiaPimentelX.github.io` e arquivo enviado.
+    - [X] Analisar visual e fluxo do site de referência.
+    - [X] Analisar conteúdo do arquivo `pasted_content.txt`.
+- [X] 002: Planejar popup de pagamento com seletor de valor.
+    - [X] Definir estrutura do popup (HTML).
+    - [X] Definir opções de valor e fluxo de seleção.
+    - [X] Planejar fluxo de exibição do QR Code.
+    - [X] Planejar fluxo de verificação de pagamento e download.
+- [X] 003: Criar popup de pagamento estilo site referência.
+    - [X] Implementar HTML do popup.
+    - [X] Implementar CSS do popup (inspirado na referência e `pasted_content.txt`).
+    - [X] Implementar JS para abrir/fechar popup e seleção de valor.
+- [X] 004: Integrar API Pushinpay ao popup com valor dinâmico.
+    - [X] Adaptar script JS para pegar valor selecionado.
+    - [X] Chamar API Pushinpay com valor dinâmico e exibir QR Code.
+    - [X] Armazenar ID da transação.
+- [X] 005: Implementar verificação de pagamento e redirecionamento_telegram()
+    - [X] Implementar lógica de polling para verificar status do pagamento (GET `/api/transactions/{ID}`).
+    - [X] Solicitar URL do canal do Telegram ao usuário.
+    - [X] Implementar redirecionamento para Telegram após confirmação de pagamento.
+- [X] 006: Reportar e enviar arquivos ao usuário.
+    - [X] Preparar mensagem final.
+    - [X] Anexar todos os arquivos do projeto.
+    - [X] Perguntar sobre deploy.
