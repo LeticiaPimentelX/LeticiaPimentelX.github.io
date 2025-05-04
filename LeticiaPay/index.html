@@ -4,8 +4,370 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Exclusiva - Modelo</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="popup.css"> <!-- CSS para o popup -->
+    <style>
+    /* STYLE.CSS */
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .profile-header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border: 3px solid #ddd;
+    }
+
+    .profile-header h1 {
+        margin: 10px 0 5px;
+        font-size: 1.8em;
+    }
+
+    .profile-header p {
+        color: #666;
+        font-size: 1.1em;
+    }
+
+    .content-feed h2,
+    .payment-section h2 {
+        color: #555;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+
+    .content-item {
+        background-color: #e9e9e9;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        text-align: center;
+        color: #555;
+    }
+
+    .payment-section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    #qrcode-container {
+        margin: 20px auto;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: inline-block; /* To center the container */
+    }
+
+    #qrcode-container img {
+        display: block; /* Remove extra space below image */
+        max-width: 200px; /* Adjust as needed */
+        height: auto;
+    }
+
+    #payment-status {
+        margin-top: 15px;
+        font-weight: bold;
+        color: #888;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .container {
+            margin: 10px;
+            padding: 15px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.5em;
+        }
+
+        .profile-header p {
+            font-size: 1em;
+        }
+    }
+
+    /* POPUP.CSS */
+    /* Popup Overlay */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .popup-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Popup Content */
+    .popup-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        text-align: center;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+
+    .popup-overlay.active .popup-content {
+        transform: scale(1);
+    }
+
+    .popup-content h2 {
+        margin-top: 0;
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+
+    .popup-content p {
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    /* Close Button */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 2.5em;
+        color: #aaa;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .close-button:hover {
+        color: #333;
+    }
+
+    /* Value Options */
+    .value-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .value-button {
+        padding: 15px 20px;
+        font-size: 1.1em;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+    }
+
+    /* Inspired by LeticiaPimentelX buttons */
+    .value-button:nth-child(1) {
+        background-color: #ff8c69; /* Light Salmon */
+    }
+    .value-button:nth-child(2) {
+        background-color: #ff7f50; /* Coral */
+    }
+    .value-button:nth-child(3) {
+        background-color: #ff6347; /* Tomato */
+    }
+    .value-button:nth-child(4) {
+        background-color: #ff4500; /* OrangeRed */
+    }
+
+    .value-button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+
+    .value-button.selected {
+        box-shadow: 0 0 0 3px #fff, 0 0 0 6px #4CAF50; /* Highlight selected */
+        transform: scale(1.02);
+    }
+
+    /* QR Code Section */
+    #qrcode-section h3 {
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    #qrcode-container {
+        margin: 15px auto;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: inline-block;
+        min-height: 150px; /* Placeholder height */
+        min-width: 150px;  /* Placeholder width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #qrcode-container img {
+        display: block;
+        max-width: 200px;
+        height: auto;
+    }
+
+    #payment-status {
+        margin-top: 15px;
+        font-weight: bold;
+        color: #888;
+    }
+
+    #payment-status.paid {
+        color: green;
+    }
+
+    #payment-status.error {
+        color: red;
+    }
+
+    /* Main CTA Button */
+    .cta-button {
+        display: inline-block;
+        padding: 12px 25px;
+        font-size: 1.2em;
+        color: #fff;
+        background-color: #ff6347; /* Tomato */
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        animation: pulse 1.8s infinite;
+    }
+
+    .cta-button:hover {
+        background-color: #ff4500; /* OrangeRed */
+        transform: translateY(-2px);
+    }
+
+    /* Pulse animation from pasted_content.txt */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 99, 71, 0.7);
+        }
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px 15px rgba(255, 99, 71, 0);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 99, 71, 0);
+        }
+    }
+
+    /* Action Button (Copy PIX Code) */
+    .action-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #4CAF50; /* Green */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .action-button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+    }
+
+    .action-button:active {
+        transform: translateY(0);
+    }
+
+    .action-button.copied {
+        background-color: #388e3c;
+    }
+
+    /* Código PIX Display */
+    #pix-code-display {
+        margin-top: 10px;
+        font-size: 14px;
+        word-break: break-all; 
+        background: #f5f5f5;
+        padding: 10px;
+        border-radius: 5px;
+        max-height: 80px; 
+        overflow-y: auto;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .popup-content {
+            padding: 20px;
+        }
+        .popup-content h2 {
+            font-size: 1.5em;
+        }
+        .value-button {
+            font-size: 1em;
+            padding: 12px 15px;
+        }
+        .cta-button {
+            font-size: 1.1em;
+            padding: 10px 20px;
+        }
+        .action-button {
+            font-size: 0.9em;
+            padding: 8px 15px;
+        }
+    }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -42,12 +404,293 @@
                 <div id="qrcode-container">
                     <p>Carregando QR Code...</p>
                 </div>
+                <!-- Área para o código PIX -->
+                <div id="pix-code-section" style="display: none; margin-top: 15px;">
+                    <button id="copy-pix-code" class="action-button">Copiar Código PIX</button>
+                    <div id="pix-code-display"></div>
+                </div>
                 <p id="payment-status">Status: Aguardando seleção de valor.</p>
                 <p><small>Após o pagamento, o download iniciará automaticamente.</small></p>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const openPopupBtn = document.getElementById("open-popup-btn");
+        const closePopupBtn = document.getElementById("close-popup-btn");
+        const paymentPopup = document.getElementById("payment-popup");
+        const valueButtons = document.querySelectorAll(".value-button");
+        const qrCodeSection = document.getElementById("qrcode-section");
+        const qrCodeContainer = document.getElementById("qrcode-container");
+        const paymentStatus = document.getElementById("payment-status");
+        const pixCodeSection = document.getElementById("pix-code-section");
+        const pixCodeDisplay = document.getElementById("pix-code-display");
+        const copyPixCodeBtn = document.getElementById("copy-pix-code");
+
+        const apiKey = "26636|WaieabI4aZ94FerRjym8dY5ytdwXtQqDgEmsyPB4e3b380a0"; // Chave fornecida
+        const apiBaseUrl = "https://api.pushinpay.com.br/api"; // URL base da API
+
+        let selectedValue = null;
+        let currentTransactionId = null;
+        let paymentCheckInterval = null;
+        let pixCopyCode = null; // Armazenar o código PIX para copiar
+        let telegramUrl = null; // Será solicitada ao usuário depois
+
+        // --- Popup Handling ---
+        function openPopup() {
+            paymentPopup.style.display = "flex";
+            setTimeout(() => paymentPopup.classList.add("active"), 10); // Delay for transition
+        }
+
+        function closePopup() {
+            paymentPopup.classList.remove("active");
+            setTimeout(() => {
+                paymentPopup.style.display = "none";
+                resetPopupState(); // Reset state when closing
+            }, 300); // Match CSS transition duration
+        }
+
+        function resetPopupState() {
+            selectedValue = null;
+            currentTransactionId = null;
+            pixCopyCode = null;
+            qrCodeSection.style.display = "none";
+            qrCodeContainer.innerHTML = "<p>Carregando QR Code...</p>";
+            pixCodeSection.style.display = "none";
+            pixCodeDisplay.textContent = "";
+            paymentStatus.textContent = "Status: Aguardando seleção de valor.";
+            paymentStatus.className = ""; // Reset class
+            valueButtons.forEach(btn => btn.classList.remove("selected"));
+            if (paymentCheckInterval) {
+                clearInterval(paymentCheckInterval);
+                paymentCheckInterval = null;
+            }
+        }
+        
+        // Função para copiar texto para a área de transferência
+        function copyToClipboard(text) {
+            if (!text) return false;
+            
+            return new Promise((resolve, reject) => {
+                if (navigator.clipboard) {
+                    // API de área de transferência moderna
+                    navigator.clipboard.writeText(text)
+                        .then(() => resolve(true))
+                        .catch(err => {
+                            console.error("Erro ao copiar: ", err);
+                            resolve(fallbackCopyToClipboard(text));
+                        });
+                } else {
+                    // Fallback para navegadores que não suportam a API Clipboard
+                    resolve(fallbackCopyToClipboard(text));
+                }
+            });
+        }
+        
+        // Método alternativo para copiar em navegadores mais antigos
+        function fallbackCopyToClipboard(text) {
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";  // Evita rolar para o elemento
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                return successful;
+            } catch (err) {
+                console.error("Falha no fallback de cópia: ", err);
+                return false;
+            }
+        }
+
+        openPopupBtn.addEventListener("click", openPopup);
+        closePopupBtn.addEventListener("click", closePopup);
+        paymentPopup.addEventListener("click", (event) => {
+            // Close if clicked outside the content area
+            if (event.target === paymentPopup) {
+                closePopup();
+            }
+        });
+        
+        // Event listener para o botão de copiar código PIX
+        copyPixCodeBtn.addEventListener("click", async () => {
+            if (!pixCopyCode) return;
+            
+            const success = await copyToClipboard(pixCopyCode);
+            
+            if (success) {
+                // Feedback visual de sucesso
+                const originalText = copyPixCodeBtn.textContent;
+                copyPixCodeBtn.textContent = "Copiado!";
+                copyPixCodeBtn.classList.add("copied");
+                
+                // Restaurar após 2 segundos
+                setTimeout(() => {
+                    copyPixCodeBtn.textContent = originalText;
+                    copyPixCodeBtn.classList.remove("copied");
+                }, 2000);
+            }
+        });
+
+        // --- Value Selection Handling ---
+        valueButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                // Remove selection from others
+                valueButtons.forEach(btn => btn.classList.remove("selected"));
+                // Select current
+                button.classList.add("selected");
+                selectedValue = parseInt(button.getAttribute("data-value"));
+
+                // Show QR section and generate QR code
+                qrCodeSection.style.display = "block";
+                generatePixQrCode(selectedValue);
+            });
+        });
+
+        // --- Pushinpay API Integration ---
+        async function generatePixQrCode(valueInCents) {
+            qrCodeContainer.innerHTML = "<p>Gerando QR Code PIX...</p>";
+            paymentStatus.textContent = "Status: Processando...";
+            paymentStatus.className = "";
+            pixCodeSection.style.display = "none";
+            currentTransactionId = null; // Reset transaction ID
+            pixCopyCode = null; // Reset PIX code
+            if (paymentCheckInterval) clearInterval(paymentCheckInterval); // Clear previous interval
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/pix/cashIn`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${apiKey}`,
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        value: valueInCents,
+                        // webhook_url: "URL_DO_SEU_WEBHOOK" // Opcional
+                    })
+                });
+
+                if (!response.ok) {
+                    let errorText = `Erro HTTP: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        errorText += ` - ${JSON.stringify(errorData)}`;
+                    } catch (e) {
+                        try {
+                        errorText += ` - ${await response.text()}`;
+                        } catch (e2) {}
+                    }
+                    throw new Error(errorText);
+                }
+
+                const data = await response.json();
+
+                if (data.qr_code_base64 && data.id) {
+                    // Mostra o QR Code imagem
+                    qrCodeContainer.innerHTML = `<img src="${data.qr_code_base64}" alt="PIX QR Code">`;
+                    
+                    // Se tiver o código PIX textual, exibe em uma área copiável
+                    if (data.qr_code) {
+                        pixCopyCode = data.qr_code;
+                        pixCodeDisplay.textContent = pixCopyCode;
+                        pixCodeSection.style.display = "block";
+                    }
+                    
+                    paymentStatus.textContent = "Status: QR Code gerado. Aguardando pagamento.";
+                    currentTransactionId = data.id;
+                    // Start checking payment status
+                    startPaymentCheck(currentTransactionId);
+                } else {
+                    throw new Error("Resposta da API inválida (sem QR Code ou ID).");
+                }
+
+            } catch (error) {
+                console.error("Erro ao gerar QR Code PIX:", error);
+                qrCodeContainer.innerHTML = "<p>Erro ao gerar QR Code. Tente selecionar novamente.</p>";
+                pixCodeSection.style.display = "none";
+                paymentStatus.textContent = `Status: Erro - ${error.message}`;
+                paymentStatus.className = "error";
+            }
+        }
+
+        // --- Payment Status Check & Redirect ---
+        async function checkPaymentStatus(transactionId) {
+            if (!transactionId) return;
+
+            console.log(`Verificando status da transação: ${transactionId}`); // Log para debug
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/transactions/${transactionId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${apiKey}`,
+                        "Accept": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    // Handle non-critical errors (e.g., temporary network issue) silently for polling
+                    console.error(`Erro ao verificar status (${response.status})`);
+                    return; // Continue polling
+                }
+
+                const data = await response.json();
+
+                if (data.status === "paid") {
+                    console.log("Pagamento confirmado!");
+                    paymentStatus.textContent = "Status: Pagamento Confirmado! Redirecionando...";
+                    paymentStatus.className = "paid";
+                    clearInterval(paymentCheckInterval); // Stop polling
+                    paymentCheckInterval = null;
+
+                    // **Ação pós-pagamento: Redirecionar para Telegram**
+                    if (telegramUrl) {
+                        window.location.href = telegramUrl;
+                    } else {
+                        // Se a URL não foi fornecida ainda, apenas informa no console/popup
+                        paymentStatus.textContent = "Status: Pagamento Confirmado! URL do Telegram não configurada.";
+                        console.warn("URL do Telegram não definida para redirecionamento.");
+                        // Poderia mostrar uma mensagem no popup pedindo para contatar suporte, etc.
+                    }
+
+                } else if (data.status === "expired" || data.status === "failed" || data.status === "refunded") {
+                    console.log(`Transação ${transactionId} expirou/falhou/estornada.`);
+                    paymentStatus.textContent = `Status: Pagamento ${data.status}. Gere um novo QR Code.`;
+                    paymentStatus.className = "error";
+                    clearInterval(paymentCheckInterval);
+                    paymentCheckInterval = null;
+                } else {
+                    // Status: created, pending, processing etc. - Continue polling
+                    paymentStatus.textContent = `Status: ${data.status || 'Verificando...'}`;
+                }
+
+            } catch (error) {
+                console.error("Erro na verificação de status:", error);
+                // Don't stop polling on network errors, maybe log differently
+            }
+        }
+
+        function startPaymentCheck(transactionId) {
+            if (paymentCheckInterval) clearInterval(paymentCheckInterval); // Clear existing interval
+
+            // Check immediately first
+            checkPaymentStatus(transactionId);
+
+            // Then check every 10 seconds (adjust as needed)
+            paymentCheckInterval = setInterval(() => {
+                checkPaymentStatus(transactionId);
+            }, 10000); // 10 segundos
+        }
+
+        // --- Configuração da URL do Telegram ---
+        telegramUrl = "https://t.me/+buBXBAdkP5c2ZGYx"; // URL fixa do Telegram
+    });
+    </script>
 </body>
 </html>
